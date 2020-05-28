@@ -1,0 +1,47 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="_menu :: head">
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title th:utext="'Простая Бухгалтерия'">Простая Бухгалтерия</title>
+	
+	<link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css">
+	<link rel="stylesheet" th:href="@{/css/menu.css}" href="../static/css/menu.css">
+
+</head>
+<body>
+<th:block th:insert="~{_menu :: menu}"></th:block>
+
+<main class="content-wrapper">
+	<div class="container-fluid">
+<!--  **************** Контент начало **********************-->
+	<h1>test_output</h1>
+	<h1 th:inline="text">login is [[${#httpServletRequest.remoteUser}]]</h1>
+	<hr>
+	<h1>login is [[${#httpServletRequest.remoteUser}]]</h1>
+<!--  **************** Контент конец ***********************-->
+	</div>
+</main>
+
+<div th:replace="_menu :: js">
+	<!-- Order 1)jQuery, 2)Popper, 3)Bootstrap -->
+	<script th:href="@{/js/jquery-3.3.1.slim.min.js}" src="../static/js/jquery-3.3.1.slim.min.js"></script>
+	<script th:href="@{/js/popper.min.js}" src="../static/js/popper.min.js"></script>
+	<script th:href="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+				$('.nav-link-collapse').on(
+					'click', function() {
+						$('.nav-link-collapse').not(this).removeClass('nav-link-show');
+						$(this).toggleClass('nav-link-show');
+					}
+				);
+			}
+		);
+	</script>
+</div>
+</body>
+</html>

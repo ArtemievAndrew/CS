@@ -1,0 +1,95 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="_menu :: head">
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title th:utext="'Простая Бухгалтерия'">Простая Бухгалтерия</title>
+	
+	<link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css">
+	<link rel="stylesheet" th:href="@{/css/menu.css}" href="../static/css/menu.css">
+
+</head>
+
+<body>
+<th:block th:insert="~{_menu :: menu}"></th:block>
+<main class="content-wrapper">
+	<div class="container-fluid">
+<!--  **************** Контент начало **********************-->
+	<h1 th:if="${accId} == 0">Создание счета</h1>
+	<h1 th:if="${accId} != 0">Редактирование счета</h1>
+	<hr>
+	
+	<form name='acc' th:action="@{/acc/edit/save}" method='POST'>
+
+		<input type="hidden" id="id" name="id" th:value="${acc.id}">
+	
+		<div class="form-group">
+			<label for="name">Наименование</label>
+			<input type="text" class="form-control" id="name" name="name" th:value="${acc.name}">
+		</div>
+	
+		<div class="form-group">
+			<label for="sort_to">Дебетовая сортировка</label>
+			<input type="text" class="form-control" id="sort_to" name="sortTo" th:value="${acc.sortTo}" aria-describedby="sort_to_Help">
+			<small id="sort_to_Help" class="form-text text-muted">Сортировочный номер участия в поле "Проводка-Куда"</small>
+		</div>
+		
+		<div class="form-group">
+			<label for="sort_from">Кредитовая сортировка</label>
+			<input type="text" class="form-control" id="sort_from" name="sortFrom" th:value="${acc.sortFrom}" aria-describedby="sort_from_Help">
+			<small id="sort_from_Help" class="form-text text-muted">Сортировочный номер участия в поле "Проводка-Откуда"</small>
+		</div>
+		
+		<div class="form-group">
+			<label for="sort_status">Участие в отчете Статус (состояние счета)</label>
+			<input type="text" class="form-control" id="sort_status" name="sortStatus" th:value="${acc.sortStatus}" aria-describedby="sort_status_Help">
+			<small id="sort_status_Help" class="form-text text-muted">Сортировочный номер</small>
+		</div>
+		
+		<div class="form-group">
+			<label for="sort_rep_in">Участие в отчете Доходы</label>
+			<input type="text" class="form-control" id="sort_rep_in" name="sortRepIn" th:value="${acc.sortRepIn}" aria-describedby="sort_rep_in_Help">
+			<small id="sort_rep_in_Help" class="form-text text-muted">Сортировочный номер</small>
+		</div>
+		
+		<div class="form-group">
+			<label for="sort_rep_out">Участие в отчете Расходы</label>
+			<input type="text" class="form-control" id="sort_rep_out" name="sortRepOut" th:value="${acc.sortRepOut}" aria-describedby="sort_rep_out_Help">
+			<small id="sort_rep_out_Help" class="form-text text-muted">Сортировочный номер</small>
+		</div>
+	
+		<button type="submit" class="btn btn-outline-primary">Сохранить</button>
+		<a th:href="@{/acc}" href="#" class="btn btn-outline-primary" role="button">Отменить</a>
+		<a th:if="${accId} != 0" th:href="@{/acc/edit/delete(id=${accId})}" href="#" class="btn btn-outline-primary" role="button">Удалить</a>
+	</form>
+	
+	<br>
+	
+
+
+<!--  **************** Контент конец ***********************-->
+	</div>
+</main>
+
+<div th:replace="_menu :: js">
+	<!-- Order 1)jQuery, 2)Popper, 3)Bootstrap -->
+	<script th:href="@{/js/jquery-3.3.1.slim.min.js}" src="../static/js/jquery-3.3.1.slim.min.js"></script>
+	<script th:href="@{/js/popper.min.js}" src="../static/js/popper.min.js"></script>
+	<script th:href="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+				$('.nav-link-collapse').on(
+					'click', function() {
+						$('.nav-link-collapse').not(this).removeClass('nav-link-show');
+						$(this).toggleClass('nav-link-show');
+					}
+				);
+			}
+		);
+	</script>
+</div>
+</body>
+</html>

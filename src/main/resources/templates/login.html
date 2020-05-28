@@ -1,0 +1,91 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title th:utext="'Простая Бухгалтерия'">Простая Бухгалтерия</title>
+	
+	<link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css">
+	<link rel="stylesheet" th:href="@{/css/login.css}" href="../static/css/login.css">
+
+</head>
+<body>
+
+<div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+	<div class="carousel-inner">
+		<div class="carousel-item active">
+			<div class="item slide1"></div>
+		</div>
+		<div class="carousel-item">
+			<div class="item slide2"></div>
+		</div>
+		<div class="carousel-item">
+			<div class="item slide3"></div>
+		</div>
+	</div>
+</div>
+
+
+	<div class="container-fluid">
+	
+	<div class="card mx-auto" style="width: 25rem;">
+		<div class="card-header">
+		<h4 class="text-center">Простая Бухгалтерия</h1>
+		</div>
+		<div class="card-body">
+			<h5 class="card-title">Вход в систему:</h5>
+			<form name="f" th:action="@{/j_spring_security_check}" method='POST'>
+				<div class="form-group">
+					<label for="hrwLogin">Логин</label>
+					<input name="username" class="form-control" id="hrwLogin" placeholder="Введите логин">
+				</div>
+				<div class="form-group">
+					<label for="hrwPassword">Пароль</label>
+					<input name="password" type="password" class="form-control" id="hrwPassword" placeholder="Введите пароль">
+				</div>
+				<button type="submit" class="btn btn-primary btn-block">Войти</button>
+				<!-- /login?error=true -->
+				<div th:if="${#request.getParameter('error') == 'true'}" class="text-danger">
+					Ошибка входа!
+					<br>
+					Причина:
+					<span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
+					th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
+					Текст ошибки...
+					</span>
+				</div>
+				
+				<p>
+				<div class="form-check">
+					<input name="remember-me" type="checkbox" checked="checked" class="form-check-input" id="hrwRememberMe">
+					<label class="form-check-label" for="hrwRememberMe">Запомнить меня</label>
+				</div>
+				</p>
+			</form>
+		</div>
+	</div>
+
+	</div>
+
+<div th:replace="_menu :: js">
+	<!-- Order 1)jQuery, 2)Popper, 3)Bootstrap -->
+	<script th:href="@{/js/jquery-3.3.1.slim.min.js}" src="../static/js/jquery-3.3.1.slim.min.js"></script>
+	<script th:href="@{/js/popper.min.js}" src="../static/js/popper.min.js"></script>
+	<script th:href="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+				$('.nav-link-collapse').on(
+					'click', function() {
+						$('.nav-link-collapse').not(this).removeClass('nav-link-show');
+						$(this).toggleClass('nav-link-show');
+					}
+				);
+			}
+		);
+	</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:fragment="head">
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title th:utext="'Простая Бухгалтерия'">Простая Бухгалтерия</title>
+	
+	<link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css">
+	<link rel="stylesheet" th:href="@{/css/menu.css}" href="../static/css/menu.css">
+
+</head>
+
+<body>
+
+
+
+<div th:fragment="menu">
+
+	<footer class="fixed-bottom container-fluid p-0">
+		<div class="bg-primary text-white text-center">
+			<span class="small">2020, A2</span>
+		</div>
+	</footer>
+	
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
+	<a class="navbar-brand" href="/">Простая Бухгалтерия</a>
+	<button
+		class="navbar-toggler"
+		type="button" 
+		data-toggle="collapse"
+		data-target="#navbarCollapse"
+		aria-controls="navbarCollapse"
+		aria-expanded="false"
+		aria-label="Toggle navigation"
+	>
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarCollapse">
+		<ul class="navbar-nav mr-auto text-center sidenav" id="navAccordion">
+			
+			<li class="nav-item" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+			<a class="nav-link text-truncate" th:href="@{/acc}" href="acc.html">Настройка счетов</a>
+			</li>
+			
+			<li class="nav-item" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+			<a class="nav-link text-truncate" th:href="@{/ledger}" href="ledger.html">[нет] Проводки</a>
+			</li>
+			
+			<li class="nav-item" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+			<a class="nav-link text-truncate" th:href="@{/rep_status}" href="rep_status.html">[нет] Отчет - Статус</a>
+			</li>
+			
+			<li class="nav-item" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+			<a class="nav-link text-truncate" th:href="@{/rep_outcome}" href="rep_outcome.html">[нет] Отчет - Расходы</a>
+			</li>
+			
+			<li class="nav-item" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+			<a class="nav-link text-truncate" th:href="@{/rep_income}" href="rep_income.html">[нет] Отчет - Доходы</a>
+			</li>
+			
+			<li class="nav-item" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+			<a class="nav-link text-truncate" th:href="@{/rep_ledger}" href="rep_ledger.html">[нет] Отчет - Проводки</a>
+			</li>
+			
+			<li class="nav-item" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+				<a
+					class="nav-link text-truncate nav-link-collapse"
+					href="#"
+					id="hasSubItems1"
+					data-toggle="collapse"
+					data-target="#collapseSubTest"
+					aria-controls="collapseSubTest"
+					aria-expanded="false"
+				>[нет] Настройка</a>
+					<ul class="nav-second-level collapse" id="collapseSubTest" data-parent="#navAccordion">
+					
+					<li class="nav-item" th:if="${#request.userPrincipal != null}">
+					<a class="nav-link text-truncate" th:href="@{/date}" href="date.html">
+					<span class="nav-link-text">[нет] Текущая дата</span>
+					</a>
+					</li>
+					
+					<li class="nav-item" th:if="${#request.userPrincipal != null}">
+					<a class="nav-link text-truncate" th:href="@{/acc}" href="acc.html">
+					<span class="nav-link-text">Счета</span>
+					</a>
+					</li>
+					
+					<li class="nav-item" th:if="${#request.userPrincipal != null}">
+					<a class="nav-link text-truncate" th:href="@{/password}" href="password.html">
+					<span class="nav-link-text">[нет] Изменить пароль</span>
+					</a>
+					</li>
+					
+					</ul>
+			</li>
+			
+			<li class="nav-item" th:if="${#request.userPrincipal == null}">
+			<a class="nav-link text-truncate" th:href="@{/login}" href="login.html">Вход</a>
+			</li>
+
+			<li class="nav-item" th:if="${#request.userPrincipal != null}">
+			<a class="nav-link text-truncate" th:href="@{/logout}" href="logoutSuccessful.html">Выход</a>
+			</li>
+			
+			<li class="nav-item" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+				<a
+					class="nav-link text-truncate nav-link-collapse"
+					href="#"
+					id="hasSubItems2"
+					data-toggle="collapse"
+					data-target="#collapseSubTest"
+					aria-controls="collapseSubTest"
+					aria-expanded="false"
+				>test all</a>
+					<ul class="nav-second-level collapse" id="collapseSubTest" data-parent="#navAccordion">
+					
+					<li class="nav-item" th:if="${#request.userPrincipal != null}">
+					<a class="nav-link text-truncate" th:href="@{/html/test_static.html}" href="../static/html/test_static.html">
+					<span class="nav-link-text">test static.html</span>
+					</a>
+					</li>
+					
+					<li class="nav-item" th:if="${#request.userPrincipal != null}">
+					<a class="nav-link text-truncate" th:href="@{/test_output}" href="test_output.html">
+					<span class="nav-link-text">test output</span>
+					</a>
+					</li>
+					
+					<li class="nav-item" th:if="${#request.userPrincipal != null}">
+					<a class="nav-link text-truncate" th:href="@{/test_param}" href="test_param.html">
+					<span class="nav-link-text">test param</span>
+					</a>
+					</li>
+					
+					<li class="nav-item" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+					<a class="nav-link text-truncate" th:href="@{/test_admin}" href="test_admin.html">
+					<span class="nav-link-text">test admin</span>
+					</a>
+					</li>
+					
+					<li class="nav-item" th:if="${#request.isUserInRole('ROLE_USER')}">
+					<a class="nav-link text-truncate" th:href="@{/test_user}" href="test_user.html">
+					<span class="nav-link-text">test user</span>
+					</a>
+					</li>
+					
+					</ul>
+			</li>
+			
+			
+		</ul>
+	</div>
+	</nav>
+
+</div>
+
+<main class="content-wrapper">
+	<div class="container-fluid">
+<!--  **************** Контент начало **********************-->
+		<h1>Пример</h1>
+		<p>Меню наследуется во все страницы.</p>
+
+
+		<p>Pagination для наследования.</p>
+		
+		<nav aria-label="Pages of items" th:fragment="pagination">
+			<ul class="pagination" th:if="${dataPage.hasPrevious()||dataPage.hasNext()}">
+			<li class="page-item" th:if="${dataPage.hasPrevious()}"><a class="page-link" th:href="@{/acc(page=${dataPage.number})}" href="#">&larr;</a></li>
+			
+			<li class="page-item" th:if="${dataPage.number+1-2}>=1"><a class="page-link" th:text="${dataPage.number+1-2}" th:href="@{/acc(page=${dataPage.number+1-2})}" href="#">1</a></li>
+			<li class="page-item" th:if="${dataPage.number+1-1}>=1"><a class="page-link" th:text="${dataPage.number+1-1}" th:href="@{/acc(page=${dataPage.number+1-1})}" href="#">2</a></li>
+			<li class="page-item active"><a class="page-link" th:text="${dataPage.number+1}" th:href="@{/acc(page=${dataPage.number+1})}" href="#">3</a></li>
+			<li class="page-item" th:if="${dataPage.number+1+1}<=${dataPage.totalPages}"><a class="page-link" th:text="${dataPage.number+1+1}" th:href="@{/acc(page=${dataPage.number+1+1})}" href="#">4</a></li>
+			<li class="page-item" th:if="${dataPage.number+1+2}<=${dataPage.totalPages}"><a class="page-link" th:text="${dataPage.number+1+2}" th:href="@{/acc(page=${dataPage.number+1+2})}" href="#">5</a></li>
+			
+			<li class="page-item" th:if="${dataPage.hasNext()}"><a class="page-link" th:href="@{/acc(page=${dataPage.number+2})}" href="#">&rarr;</a></li>
+			</ul>
+		</nav>
+
+<!--  **************** Контент конец ***********************-->
+	</div>
+</main>
+
+<div th:fragment="js">
+	<!-- Order 1)jQuery, 2)Popper, 3)Bootstrap -->
+	<script th:src="@{/js/jquery-3.3.1.slim.min.js}" src="../static/js/jquery-3.3.1.slim.min.js"></script>
+	<script th:src="@{/js/popper.min.js}" src="../static/js/popper.min.js"></script>
+	<script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+				$('.nav-link-collapse').on(
+					'click', function() {
+						$('.nav-link-collapse').not(this).removeClass('nav-link-show');
+						$(this).toggleClass('nav-link-show');
+					}
+				);
+			}
+		);
+	</script>
+</div>
+
+</body>
+</html>
