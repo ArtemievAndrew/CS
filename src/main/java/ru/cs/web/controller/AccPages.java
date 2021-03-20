@@ -3,6 +3,8 @@ package ru.cs.web.controller;
 import java.security.Principal;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,31 +16,32 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import ru.cs.entity.Acc;
 import ru.cs.security.User;
 import ru.cs.service.AccService;
+import ru.cs.service.SessionParam;
 
 @Controller
 public class AccPages {
 
 	@Autowired
 	AccService accService;
-
-	private Long getFirmId() {
-		// TODO: вычислять\хранить в сессии firmid 
-		// заглушка, т.к. еще не умею
-		return (long) 1;
-	}
+	
+	@Autowired
+	SessionParam  sessionParam;
 
 	@RequestMapping(value = "/acc", method = RequestMethod.GET)
-	public String accPage(Model model, Principal principal,
+	public String accPage(Model model, Principal principal, HttpSession ses,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int pageNum) {
 
 		Long userId = ((User) ((Authentication) principal).getPrincipal()).getId();
 		Pageable p = PageRequest.of(pageNum - 1, 10);
 
-		Page<ru.cs.entity.Acc> dataPage = accService.findAllByFirmIdOrderById(getFirmId(), p);
+		Long firmId = sessionParam.getFirmId();
+		
+		Page<ru.cs.entity.Acc> dataPage = accService.findAllByFirmIdOrderById(firmId, p);
 
 		model.addAttribute("dataPage", dataPage);
 		return "acc";
@@ -52,7 +55,7 @@ public class AccPages {
 
 		Acc acc;
 		if (accId != 0) {
-			if (accService.isAccess(accId, getFirmId())==false) return "forward:/acc";
+			if (accService.isAccess(accId, sessionParam.getFirmId())==false) return "forward:/acc";
 			Optional<Acc> oAcc = accService.findById(accId);
 			acc = oAcc.get();
 		} else {
@@ -69,10 +72,10 @@ public class AccPages {
 		User loginedUser = (User) ((Authentication) principal).getPrincipal();
 		
 		if (acc.getId()!=null) {
-			if (accService.isAccess(acc.getId(), getFirmId())==false) return "forward:/acc";
+			if (accService.isAccess(acc.getId(), sessionParam.getFirmId())==false) return "forward:/acc";
 		}
 
-		acc.setFirmId(getFirmId()); // TODO глюк!
+		acc.setFirmId(sessionParam.getFirmId());
 		accService.save(acc);
 
 		return "redirect:/acc";
@@ -83,7 +86,7 @@ public class AccPages {
 			@RequestParam(name = "id", required = false, defaultValue = "0") Long accId) {
 		User loginedUser = (User) ((Authentication) principal).getPrincipal();
 
-		if (accService.isAccess(accId, getFirmId())==false) return "redirect:/acc";
+		if (accService.isAccess(accId, sessionParam.getFirmId())==false) return "redirect:/acc";
 		
 		accService.deleteById(accId);
 		return "redirect:/acc";

@@ -25,3 +25,11 @@
 3. Установить Maven
 4. Установить Git
 5. Установить Eclipse IDE for Enterprise Java Developers
+
+
+Напоминания
+-----------
+
+В github отправлял так:
+git remote add origin https://github.com/ArtemievAndrew/CS.git
+git push -u origin master
